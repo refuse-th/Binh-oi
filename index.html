@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Bình ơi hehe</title>
+    <!-- Tải Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Tải Font chữ Gothic / Huyền bí hỗ trợ tiếng Việt -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700;900&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+            user-select: none;
+            -webkit-user-select: none;
+            background-color: #090612;
+        }
+
+        .font-gothic {
+            font-family: 'Cinzel Decorative', serif;
+        }
+
+        /* Hiệu ứng sương mù trôi lững lờ phía sau */
+        @keyframes fogDrift {
+            0% { transform: translateX(-12%) scale(1.05); opacity: 0.35; }
+            50% { transform: translateX(12%) scale(1.12); opacity: 0.55; }
+            100% { transform: translateX(-12%) scale(1.05); opacity: 0.35; }
+        }
+        .fog-layer {
+            animation: fogDrift 16s ease-in-out infinite;
+        }
+
+        /* Hiệu ứng dơi bay lượn nhẹ nhàng trên bầu trời trăng */
+        @keyframes batFly {
+            0% { transform: translate(-10vw, 10px) scale(0.85); opacity: 0; }
+            15% { opacity: 0.85; }
+            50% { transform: translate(50vw, -25px) scale(1.05); }
+            85% { opacity: 0.85; }
+            100% { transform: translate(110vw, 5px) scale(0.9); opacity: 0; }
+        }
+        .bat-fly {
+            position: fixed;
+            pointer-events: none;
+            z-index: 2;
+            animation: batFly linear infinite;
+        }
+
+        /* Hiệu ứng chữ "Bình ơiiiii" trôi ma mị khắp màn hình */
+        @keyframes ghostCallDrift {
+            0% {
+                transform: translate(-18vw, 12px) rotate(-5deg) scale(0.9);
+                opacity: 0;
+            }
+            18% { opacity: 0.72; }
+            50% {
+                transform: translate(48vw, -24px) rotate(4deg) scale(1.08);
+                opacity: 0.35;
+            }
+            82% { opacity: 0.8; }
+            100% {
+                transform: translate(115vw, 18px) rotate(-4deg) scale(0.95);
+                opacity: 0;
+            }
+        }
+        @keyframes ghostCallDriftReverse {
+            0% {
+                transform: translate(112vw, -10px) rotate(4deg) scale(0.92);
+                opacity: 0;
+            }
+            20% { opacity: 0.68; }
+            50% {
+                transform: translate(45vw, 22px) rotate(-5deg) scale(1.06);
+                opacity: 0.3;
+            }
+            80% { opacity: 0.78; }
+            100% {
+                transform: translate(-20vw, -16px) rotate(5deg) scale(0.95);
+                opacity: 0;
+            }
+        }
+        @keyframes ghostFlicker {
+            0%, 100% { filter: blur(0.4px); }
+            48% { filter: blur(0.4px); opacity: 1; }
+            50% { filter: blur(2px); opacity: 0.25; }
+            52% { filter: blur(0.4px); opacity: 0.95; }
+        }
+        .ghost-call-text {
+            position: fixed;
+            pointer-events: none;
+            white-space: nowrap;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            text-shadow: 0 0 12px rgba(239, 68, 68, 0.75), 0 0 24px rgba(168, 85, 247, 0.65);
+            animation: ghostCallDrift linear infinite, ghostFlicker 3.2s infinite;
+        }
+        .ghost-call-text.reverse {
+            animation: ghostCallDriftReverse linear infinite, ghostFlicker 2.8s infinite;
+        }
+
+        /* Ánh sáng trăng tròn phát hào quang */
+        .moon-glow {
+            box-shadow: 0 0 60px 18px rgba(251, 146, 60, 0.25), 0 0 120px 40px rgba(168, 85, 247, 0.18);
+        }
+
+        /* Hiệu ứng thẻ/nút ma mị khi di chuột hoặc chạm */
+        .mystic-btn {
+            transition: transform 0.22s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.25s ease, border-color 0.25s ease;
+        }
+        .mystic-btn:hover {
+            transform: translateY(-6px) scale(1.02);
+            box-shadow: 0 14px 32px rgba(249, 115, 22, 0.28);
+            border-color: rgba(251, 146, 60, 0.8);
+        }
+        .mystic-btn:active {
+            transform: scale(0.96);
+        }
+
+        /* =========================================================
+           HIỆU ỨNG JUMPSCARE TOÀN MÀN HÌNH (RUNG LẮC + NHẤP NHÁY GẮT)
+           ========================================================= */
+        @keyframes violentShake {
+            0% { transform: translate(0, 0) rotate(0deg) scale(1.08); }
+            10% { transform: translate(-34px, -26px) rotate(-5deg) scale(1.22); }
+            20% { transform: translate(34px, 24px) rotate(5deg) scale(1.12); }
+            30% { transform: translate(-38px, 28px) rotate(-4deg) scale(1.28); }
+            40% { transform: translate(38px, -32px) rotate(6deg) scale(1.15); }
+            50% { transform: translate(-30px, 32px) rotate(-6deg) scale(1.25); }
+            60% { transform: translate(32px, -24px) rotate(4deg) scale(1.11); }
+            70% { transform: translate(-32px, -32px) rotate(-5deg) scale(1.3); }
+            80% { transform: translate(26px, 26px) rotate(5deg) scale(1.18); }
+            90% { transform: translate(-22px, -16px) rotate(-3deg) scale(1.24); }
+            100% { transform: translate(0, 0) rotate(0deg) scale(1.08); }
+        }
+
+        @keyframes strobeFlash {
+            0%, 44% { background-color: #000000; }
+            45%, 72% { background-color: #dc2626; } /* Đỏ máu */
+            73%, 100% { background-color: #ffffff; } /* Trắng chói */
+        }
+
+        @keyframes imageInvertFlash {
+            0%, 58% { filter: contrast(165%) brightness(105%) invert(0); }
+            59%, 79% { filter: contrast(270%) brightness(155%) invert(1); }
+            80%, 100% { filter: contrast(235%) sepia(100%) hue-rotate(-50deg) saturate(620%); }
+        }
+
+        .scare-strobe-bg {
+            animation: strobeFlash 0.075s infinite !important;
+        }
+
+        .scare-image-motion {
+            animation: violentShake 0.095s infinite, imageInvertFlash 0.15s infinite !important;
+        }
+    </style>
+</head>
+<body class="min-h-screen bg-[radial-gradient(ellipse_at_top,_#1e1035_0%,_#0d0818_55%,_#050308_100%)] text-stone-100 flex items-center justify-center p-4 relative overflow-hidden">
+
+    <!-- Lớp sương mù tím than & cam mờ ảo -->
+    <div class="fog-layer fixed inset-0 pointer-events-none z-0 bg-[radial-gradient(circle_at_30%_70%,_rgba(126,34,206,0.22),_transparent_55%),radial-gradient(circle_at_75%_30%,_rgba(234,88,12,0.16),_transparent_50%)]"></div>
+
+    <!-- Mặt trăng tròn huyền bí góc trên bên phải -->
+    <div class="fixed top-6 right-6 sm:top-10 sm:right-14 w-20 h-20 sm:w-28 sm:h-28 rounded-full bg-gradient-to-br from-amber-100 via-orange-200 to-amber-400 moon-glow opacity-85 pointer-events-none z-0">
+        <!-- Bề mặt hố trăng mờ -->
+        <div class="w-4 h-4 rounded-full bg-amber-500/20 absolute top-4 left-5"></div>
+        <div class="w-6 h-6 rounded-full bg-amber-600/15 absolute bottom-5 right-6"></div>
+        <div class="w-3 h-3 rounded-full bg-amber-500/20 absolute top-10 right-5"></div>
+    </div>
+
+    <!-- Mạng nhện SVG tinh tế ở góc trên bên trái -->
+    <svg class="fixed top-0 left-0 w-36 h-36 sm:w-52 sm:h-52 text-purple-300/20 pointer-events-none z-0" viewBox="0 0 200 200" fill="none" stroke="currentColor" stroke-width="1.2">
+        <path d="M0 0 L200 40 M0 0 L170 110 M0 0 L110 170 M0 0 L40 200" />
+        <path d="M45 9 Q38 25 25 38 Q12 43 9 45" />
+        <path d="M90 18 Q76 52 52 76 Q25 86 18 90" />
+        <path d="M135 27 Q114 78 78 114 Q38 130 27 135" />
+        <path d="M180 36 Q152 104 104 152 Q50 172 36 180" />
+    </svg>
+
+    <!-- Dơi bay lượn nhẹ nhàng -->
+    <div class="bat-fly top-14 text-purple-300/50" style="animation-duration: 14s; animation-delay: 0s;">
+        <svg class="w-8 h-5" viewBox="0 0 64 32" fill="currentColor"><path d="M32 14c-3-4-8-6-13-4-4-6-12-8-19-4 5 4 7 9 6 14 4-2 8-1 11 2 3-3 7-4 11-2 1 3 3 5 4 5s3-2 4-5c4-2 8-1 11 2 3-3 7-4 11-2-1-5 1-10 6-14-7-4-15-2-19 4-5-2-10 0-13 4z"/></svg>
+    </div>
+    <div class="bat-fly top-28 text-orange-300/40" style="animation-duration: 18s; animation-delay: 5s;">
+        <svg class="w-6 h-4" viewBox="0 0 64 32" fill="currentColor"><path d="M32 14c-3-4-8-6-13-4-4-6-12-8-19-4 5 4 7 9 6 14 4-2 8-1 11 2 3-3 7-4 11-2 1 3 3 5 4 5s3-2 4-5c4-2 8-1 11 2 3-3 7-4 11-2-1-5 1-10 6-14-7-4-15-2-19 4-5-2-10 0-13 4z"/></svg>
+    </div>
+
+    <!-- Container chứa các dòng chữ "Bình ơiiiii" trôi lơ lửng (hiển thị cả trước và trong lúc dọa ma) -->
+    <div id="ghostCallsContainer" class="fixed inset-0 pointer-events-none z-[60] overflow-hidden" aria-hidden="true"></div>
+
+    <!-- =========================================================
+         PHẦN 1: GIAO DIỆN THỬ THÁCH BÓI TOÁN HALLOWEEN MA MỊ
+         ========================================================= -->
+    <main id="halloweenStage" class="relative z-10 w-full max-w-2xl bg-[#130c24]/85 backdrop-blur-xl border border-purple-500/30 rounded-3xl shadow-[0_25px_70px_rgba(0,0,0,0.85)] p-6 sm:p-10 text-center">
+
+        <!-- Nhãn sự kiện huyền bí -->
+        <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-orange-500/15 border border-orange-400/30 text-orange-300 text-xs sm:text-sm font-semibold tracking-wider uppercase mb-4">
+            <span></span>
+            <span>Bình ơiiiii</span>
+            <span></span>
+        </div>
+
+        <h1 class="font-gothic text-3xl sm:text-5xl font-black text-transparent bg-clip-text bg-gradient-to-r from-orange-300 via-amber-200 to-purple-300 drop-shadow mb-3 tracking-wide">
+            Chuẩn bị tinh thần đi
+        </h1>
+
+        <p class="text-sm sm:text-base text-purple-200/80 max-w-lg mx-auto mb-8 leading-relaxed">
+            Chọn <span class="text-orange-400 font-semibold">1 trong 3 cái thẻ cho t cái</span> 
+        </p>
+
+        <!-- Lưới 3 nút bấm bí ẩn (Cả 3 nút đều kích hoạt Jumpscare với 3 ảnh riêng biệt) -->
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-5 mb-7">
+            <!-- Nút 1 -->
+            <button type="button" data-scare-id="1" class="scare-trigger mystic-btn group relative flex flex-col items-center justify-center p-6 rounded-2xl bg-gradient-to-b from-[#24143e] to-[#160c28] border border-purple-400/30 text-stone-100 cursor-pointer">
+                <div class="w-16 h-16 rounded-2xl bg-orange-500/15 border border-orange-400/30 flex items-center justify-center text-3xl mb-3 group-hover:scale-110 transition-transform">
+                    🎃
+                </div>
+                <span class="font-bold text-base sm:text-lg text-orange-300 group-hover:text-orange-200">
+                    Code Free 500 robux
+                </span>
+                <span class="text-xs text-purple-300/70 mt-1.5">
+                    Tin t đi có thể bị anbatocom đừng chọn
+                </span>
+            </button>
+
+            <!-- Nút 2 -->
+            <button type="button" data-scare-id="2" class="scare-trigger mystic-btn group relative flex flex-col items-center justify-center p-6 rounded-2xl bg-gradient-to-b from-[#2a153d] to-[#170c29] border border-purple-400/30 text-stone-100 cursor-pointer">
+                <div class="w-16 h-16 rounded-2xl bg-purple-500/20 border border-purple-400/30 flex items-center justify-center text-3xl mb-3 group-hover:scale-110 transition-transform">
+                    😈
+                </div>
+                <span class="font-bold text-base sm:text-lg text-purple-200 group-hover:text-white">
+                    Code free 1000 robux
+                </span>
+                <span class="text-xs text-purple-300/70 mt-1.5">
+                    Tin t đi có thể bị nhét dưa chuột đừng chọn
+                </span>
+            </button>
+
+            <!-- Nút 3 -->
+            <button type="button" data-scare-id="3" class="scare-trigger mystic-btn group relative flex flex-col items-center justify-center p-6 rounded-2xl bg-gradient-to-b from-[#261338] to-[#150a24] border border-purple-400/30 text-stone-100 cursor-pointer">
+                <div class="w-16 h-16 rounded-2xl bg-rose-500/15 border border-rose-400/30 flex items-center justify-center text-3xl mb-3 group-hover:scale-110 transition-transform">
+                    💔
+                </div>
+                <span class="font-bold text-base sm:text-lg text-amber-200 group-hover:text-amber-100">
+                    Del có quà
+                </span>
+                <span class="text-xs text-purple-300/70 mt-1.5">
+                    Tin t đi chọn cái này kh bị sao đâu
+                </span>
+            </button>
+        </div>
+
+        <p class="text-xs text-purple-300/50 italic">
+            * Đeo tai nghe đi, hay lắm!
+        </p>
+    </main>
+
+    <!-- =========================================================
+         PHẦN 2: MÀN HÌNH JUMPSCARE TOÀN MÀN HÌNH (ẨN BAN ĐẦU)
+         ========================================================= -->
+    <div id="scareOverlay" class="fixed inset-0 z-50 hidden items-center justify-center bg-black overflow-hidden">
+        <img id="scareImage" src="" alt="" class="w-full h-full object-cover sm:object-contain scare-image-motion pointer-events-none select-none">
+    </div>
+
+    <!-- Thẻ Audio phát file âm thanh trực tiếp -->
+    <audio id="scareAudio" preload="auto" loop></audio>
+
+    <script>
+        /* =========================================================================
+           CẤU HÌNH 3 ẢNH KINH DỊ & ÂM THANH TRỰC TIẾP TRONG CODE:
+           -------------------------------------------------------------------------
+           1. Thay 3 hình ảnh kinh dị riêng biệt cho 3 nút bấm:
+              - Tải 3 ảnh lên cùng thư mục với file HTML trên GitHub và điền tên file:
+                const HORROR_IMAGE_1 = "anhma1.jpg";
+                const HORROR_IMAGE_2 = "anhma2.jpg";
+                const HORROR_IMAGE_3 = "anhma3.jpg";
+              - Hoặc dán trực tiếp đường link ảnh (URL) / chuỗi Base64 vào từng biến.
+              - Mặc định bên dưới đã tạo sẵn 3 hình ma SVG/Data URI khác nhau để bạn
+                chạy thử ngay lập tức mà không cần tải thêm gì.
+
+           2. Thay âm thanh la hét (HORROR_AUDIO_SRC):
+              - Tải file âm thanh (.mp3 hoặc .wav) lên cùng thư mục với file HTML trên
+                GitHub và điền đúng tên file vào dòng dưới đây:
+                const HORROR_AUDIO_SRC = "doama.mp3";
+           ========================================================================= */
+
+        // 👇 ẢNH KINH DỊ KHI BẤM NÚT 1 ("Mở Rương Bí Ngô") - Thay bằng "anhma1.jpg" của bạn:
+        const HORROR_IMAGE_1 = "data:image/svg+xml;utf8," + encodeURIComponent(`
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 800">
+                <rect width="800" height="800" fill="#030303"/>
+                <defs>
+                    <radialGradient id="g1" cx="50%" cy="44%" r="52%">
+                        <stop offset="0%" stop-color="#f8fafc"/>
+                        <stop offset="60%" stop-color="#64748b"/>
+                        <stop offset="100%" stop-color="#020617"/>
+                    </radialGradient>
+                    <filter id="w1">
+                        <feTurbulence type="fractalNoise" baseFrequency="0.03" numOctaves="3" result="n"/>
+                        <feDisplacementMap in="SourceGraphic" in2="n" scale="20"/>
+                    </filter>
+                </defs>
+                <g filter="url(#w1)">
+                    <ellipse cx="400" cy="390" rx="220" ry="300" fill="url(#g1)"/>
+                    <ellipse cx="305" cy="300" rx="64" ry="78" fill="#000"/>
+                    <ellipse cx="495" cy="300" rx="64" ry="78" fill="#000"/>
+                    <circle cx="305" cy="305" r="14" fill="#ff0000"/>
+                    <circle cx="305" cy="305" r="4" fill="#fff"/>
+                    <circle cx="495" cy="305" r="14" fill="#ff0000"/>
+                    <circle cx="495" cy="305" r="4" fill="#fff"/>
+                    <path d="M288 372 Q280 460 270 535" stroke="#990000" stroke-width="13" fill="none" stroke-linecap="round"/>
+                    <path d="M512 372 Q525 470 535 545" stroke="#990000" stroke-width="15" fill="none" stroke-linecap="round"/>
+                    <path d="M384 410 L366 465 L395 452 Z" fill="#000"/>
+                    <path d="M416 410 L434 465 L405 452 Z" fill="#000"/>
+                    <ellipse cx="400" cy="580" rx="102" ry="132" fill="#000" stroke="#450a0a" stroke-width="14"/>
+                    <polygon points="322,492 340,536 356,486" fill="#e2e8f0"/>
+                    <polygon points="362,482 380,532 396,482" fill="#e2e8f0"/>
+                    <polygon points="404,482 420,532 438,482" fill="#e2e8f0"/>
+                    <polygon points="444,486 460,536 478,492" fill="#e2e8f0"/>
+                    <polygon points="335,675 352,625 370,680" fill="#e2e8f0"/>
+                    <polygon points="384,685 400,630 416,685" fill="#e2e8f0"/>
+                    <polygon points="430,680 448,625 465,675" fill="#e2e8f0"/>
+                </g>
+            </svg>
+        `);
+
+        // 👇 ẢNH KINH DỊ KHI BẤM NÚT 2 ("Xem Bói Đêm Trăng") - Thay bằng "anhma2.jpg" của bạn:
+        const HORROR_IMAGE_2 = "data:image/svg+xml;utf8," + encodeURIComponent(`
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 800">
+                <rect width="800" height="800" fill="#050000"/>
+                <defs>
+                    <radialGradient id="g2" cx="50%" cy="48%" r="55%">
+                        <stop offset="0%" stop-color="#fee2e2"/>
+                        <stop offset="55%" stop-color="#7f1d1d"/>
+                        <stop offset="100%" stop-color="#000000"/>
+                    </radialGradient>
+                </defs>
+                <!-- Gương mặt quỷ mắt trắng dã cười rách mang tai -->
+                <path d="M180 220 Q400 80 620 220 Q670 460 550 680 Q400 760 250 680 Q130 460 180 220 Z" fill="url(#g2)"/>
+                <!-- Mắt trợn trừng lệch kích thước -->
+                <circle cx="290" cy="310" r="68" fill="#ffffff" stroke="#000" stroke-width="12"/>
+                <circle cx="295" cy="315" r="12" fill="#000000"/>
+                <circle cx="515" cy="295" r="54" fill="#ffffff" stroke="#000" stroke-width="12"/>
+                <circle cx="510" cy="290" r="9" fill="#000000"/>
+                <!-- Nụ cười rách mang tai đầy răng nhọn -->
+                <path d="M190 470 Q400 720 610 470 Q400 560 190 470 Z" fill="#000000" stroke="#991b1b" stroke-width="10"/>
+                <path d="M230 495 L250 545 L270 505 L295 560 L320 515 L350 570 L380 520 L410 575 L440 520 L470 570 L500 515 L525 560 L550 505 L570 540" stroke="#f8fafc" stroke-width="8" fill="none"/>
+            </svg>
+        `);
+
+        // 👇 ẢNH KINH DỊ KHI BẤM NÚT 3 ("Gõ Cửa Nhà Hoang") - Thay bằng "anhma3.jpg" của bạn:
+        const HORROR_IMAGE_3 = "data:image/svg+xml;utf8," + encodeURIComponent(`
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 800">
+                <rect width="800" height="800" fill="#000000"/>
+                <!-- Bóng ma xuất hiện sát màn hình -->
+                <ellipse cx="400" cy="400" rx="260" ry="340" fill="#d4d4d8"/>
+                <ellipse cx="400" cy="400" rx="245" ry="325" fill="#18181b"/>
+                <!-- Hốc mắt rỗng chảy máu đen -->
+                <path d="M230 270 Q300 220 360 290 Q300 370 230 270 Z" fill="#000000"/>
+                <path d="M570 270 Q500 220 440 290 Q500 370 570 270 Z" fill="#000000"/>
+                <circle cx="298" cy="290" r="10" fill="#ef4444"/>
+                <circle cx="502" cy="290" r="10" fill="#ef4444"/>
+                <!-- Miệng kéo dài kinh dị -->
+                <rect x="315" y="430" width="170" height="250" rx="85" fill="#000000" stroke="#7f1d1d" stroke-width="14"/>
+                <line x1="350" y1="435" x2="350" y2="675" stroke="#52525b" stroke-width="8"/>
+                <line x1="400" y1="430" x2="400" y2="680" stroke="#52525b" stroke-width="8"/>
+                <line x1="450" y1="435" x2="450" y2="675" stroke="#52525b" stroke-width="8"/>
+            </svg>
+        `);
+
+        // 👇 FILE ÂM THANH LA HÉT TRÊN GITHUB (Tải file mp3 lên cùng thư mục và điền tên):
+        const HORROR_AUDIO_SRC = "doama.mp3";
+
+        // =========================================================================
+        // LOGIC KÍCH HOẠT JUMPSCARE & MỞ KHÓA ÂM THANH 100%
+        // =========================================================================
+        const IMAGE_MAP = {
+            "1": HORROR_IMAGE_1,
+            "2": HORROR_IMAGE_2,
+            "3": HORROR_IMAGE_3
+        };
+
+        const halloweenStage = document.getElementById('halloweenStage');
+        const scareOverlay = document.getElementById('scareOverlay');
+        const scareImage = document.getElementById('scareImage');
+        const scareAudio = document.getElementById('scareAudio');
+
+        // Nạp sẵn nguồn âm thanh
+        if (HORROR_AUDIO_SRC) {
+            scareAudio.src = HORROR_AUDIO_SRC;
+        }
+
+        // Tạo các dòng chữ "Bình ơiiiii" trôi mờ ảo, chập chờn khắp màn hình
+        function spawnGhostCalls() {
+            const container = document.getElementById('ghostCallsContainer');
+            const phrases = [
+                "Bình ơiiiii...",
+                "Bình ơi...",
+                "Bình ơiiiiii!",
+                "Bình ơiiiii...",
+                "Bình ơi... quay lại đây...",
+                "Bình ơiiiiiii..."
+            ];
+            const colors = [
+                "text-purple-200/75",
+                "text-orange-300/75",
+                "text-red-400/85",
+                "text-rose-300/80"
+            ];
+
+            for (let i = 0; i < 10; i++) {
+                const el = document.createElement('div');
+                const isReverse = i % 2 === 1;
+                el.className = `ghost-call-text font-gothic ${isReverse ? 'reverse' : ''} ${colors[i % colors.length]}`;
+                el.textContent = phrases[i % phrases.length];
+                el.style.top = (6 + (i * 9) % 86) + 'vh';
+                el.style.fontSize = (15 + (i % 4) * 5) + 'px';
+                el.style.animationDuration = (9 + (i % 5) * 2.5) + 's';
+                el.style.animationDelay = (-i * 1.4) + 's';
+                container.appendChild(el);
+            }
+        }
+        spawnGhostCalls();
+
+        // Bật chế độ toàn màn hình (Fullscreen) ngay trong sự kiện click của người dùng
+        function requestFullscreenNow() {
+            const elem = document.documentElement;
+            if (elem.requestFullscreen) {
+                elem.requestFullscreen().catch(() => {});
+            } else if (elem.webkitRequestFullscreen) {
+                elem.webkitRequestFullscreen();
+            } else if (elem.msRequestFullscreen) {
+                elem.msRequestFullscreen();
+            }
+        }
+
+        let isScared = false;
+
+        function triggerScareById(scareId) {
+            if (isScared) return;
+            isScared = true;
+
+            // 1. Chọn đúng ảnh kinh dị tương ứng với nút người dùng vừa bấm
+            scareImage.src = IMAGE_MAP[scareId] || HORROR_IMAGE_1;
+
+            // 2. Bật toàn màn hình ngay lập tức
+            requestFullscreenNow();
+
+            // 3. Ẩn giao diện Halloween, bung màn hình nhấp nháy đỏ/đen/trắng
+            halloweenStage.classList.add('hidden');
+            scareOverlay.classList.remove('hidden');
+            scareOverlay.classList.add('flex', 'scare-strobe-bg');
+
+            // 4. Rung điện thoại liên hồi (nếu mở trên điện thoại hỗ trợ rung)
+            if (navigator.vibrate) {
+                navigator.vibrate([500, 80, 500, 80, 700, 80, 900]);
+            }
+
+            // 5. Phát âm thanh trực tiếp qua thẻ <audio> ngay trong cú click (100% không bị chặn)
+            if (HORROR_AUDIO_SRC) {
+                scareAudio.muted = false;
+                scareAudio.volume = 1.0;
+                scareAudio.currentTime = 0;
+                scareAudio.play().catch(() => {});
+            }
+        }
+
+        // Gắn sự kiện click trực tiếp cho cả 3 nút bấm bí ẩn
+        document.querySelectorAll('.scare-trigger').forEach(btn => {
+            btn.addEventListener('click', function () {
+                const scareId = this.getAttribute('data-scare-id');
+                triggerScareById(scareId);
+            });
+        });
+    </script>
+</body>
+</html>
