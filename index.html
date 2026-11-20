@@ -209,7 +209,7 @@
         </h1>
 
         <p class="text-sm sm:text-base text-purple-200/80 max-w-lg mx-auto mb-8 leading-relaxed">
-            Chọn <span class="text-orange-400 font-semibold">1 trong 3 cái thẻ cho t cái</span> 
+            Chọn <span class="text-orange-400 font-semibold">1 trong 3 cái thẻ cho t cái</span>
         </p>
 
         <!-- Lưới 3 nút bấm bí ẩn (Cả 3 nút đều kích hoạt Jumpscare với 3 ảnh riêng biệt) -->
@@ -255,7 +255,7 @@
         </div>
 
         <p class="text-xs text-purple-300/50 italic">
-            * Đeo tai nghe đi, hay lắm!
+            - Đeo tai nghe đi, hay lắm!
         </p>
     </main>
 
@@ -266,29 +266,14 @@
         <img id="scareImage" src="" alt="" class="w-full h-full object-cover sm:object-contain scare-image-motion pointer-events-none select-none">
     </div>
 
-    <!-- Thẻ Audio phát file âm thanh trực tiếp -->
-    <audio id="scareAudio" preload="auto" loop></audio>
+    <!-- 1. Âm thanh gọi "Bình ơiiiii" phát ngay khi vào web và lặp lại mãi mãi -->
+    <audio id="bgBinhAudio" src="Binhoi.mp3" autoplay loop preload="auto"></audio>
+
+    <!-- 2. Âm thanh dọa ma giữ nguyên khi bấm vào thẻ -->
+    <audio id="scareAudio" src="doama.mp3" preload="auto" loop></audio>
 
     <script>
-        /* =========================================================================
-           CẤU HÌNH 3 ẢNH KINH DỊ & ÂM THANH TRỰC TIẾP TRONG CODE:
-           -------------------------------------------------------------------------
-           1. Thay 3 hình ảnh kinh dị riêng biệt cho 3 nút bấm:
-              - Tải 3 ảnh lên cùng thư mục với file HTML trên GitHub và điền tên file:
-                const HORROR_IMAGE_1 = "anhma1.jpg";
-                const HORROR_IMAGE_2 = "anhma2.jpg";
-                const HORROR_IMAGE_3 = "anhma3.jpg";
-              - Hoặc dán trực tiếp đường link ảnh (URL) / chuỗi Base64 vào từng biến.
-              - Mặc định bên dưới đã tạo sẵn 3 hình ma SVG/Data URI khác nhau để bạn
-                chạy thử ngay lập tức mà không cần tải thêm gì.
-
-           2. Thay âm thanh la hét (HORROR_AUDIO_SRC):
-              - Tải file âm thanh (.mp3 hoặc .wav) lên cùng thư mục với file HTML trên
-                GitHub và điền đúng tên file vào dòng dưới đây:
-                const HORROR_AUDIO_SRC = "doama.mp3";
-           ========================================================================= */
-
-        // 👇 ẢNH KINH DỊ KHI BẤM NÚT 1 ("Mở Rương Bí Ngô") - Thay bằng "anhma1.jpg" của bạn:
+        // 👇 ẢNH KINH DỊ KHI BẤM NÚT 1 - Thay bằng "anhma1.jpg" của bạn:
         const HORROR_IMAGE_1 = "data:image/svg+xml;utf8," + encodeURIComponent(`
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 800">
                 <rect width="800" height="800" fill="#030303"/>
@@ -327,7 +312,7 @@
             </svg>
         `);
 
-        // 👇 ẢNH KINH DỊ KHI BẤM NÚT 2 ("Xem Bói Đêm Trăng") - Thay bằng "anhma2.jpg" của bạn:
+        // 👇 ẢNH KINH DỊ KHI BẤM NÚT 2 - Thay bằng "anhma2.jpg" của bạn:
         const HORROR_IMAGE_2 = "data:image/svg+xml;utf8," + encodeURIComponent(`
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 800">
                 <rect width="800" height="800" fill="#050000"/>
@@ -338,32 +323,26 @@
                         <stop offset="100%" stop-color="#000000"/>
                     </radialGradient>
                 </defs>
-                <!-- Gương mặt quỷ mắt trắng dã cười rách mang tai -->
                 <path d="M180 220 Q400 80 620 220 Q670 460 550 680 Q400 760 250 680 Q130 460 180 220 Z" fill="url(#g2)"/>
-                <!-- Mắt trợn trừng lệch kích thước -->
                 <circle cx="290" cy="310" r="68" fill="#ffffff" stroke="#000" stroke-width="12"/>
                 <circle cx="295" cy="315" r="12" fill="#000000"/>
                 <circle cx="515" cy="295" r="54" fill="#ffffff" stroke="#000" stroke-width="12"/>
                 <circle cx="510" cy="290" r="9" fill="#000000"/>
-                <!-- Nụ cười rách mang tai đầy răng nhọn -->
                 <path d="M190 470 Q400 720 610 470 Q400 560 190 470 Z" fill="#000000" stroke="#991b1b" stroke-width="10"/>
                 <path d="M230 495 L250 545 L270 505 L295 560 L320 515 L350 570 L380 520 L410 575 L440 520 L470 570 L500 515 L525 560 L550 505 L570 540" stroke="#f8fafc" stroke-width="8" fill="none"/>
             </svg>
         `);
 
-        // 👇 ẢNH KINH DỊ KHI BẤM NÚT 3 ("Gõ Cửa Nhà Hoang") - Thay bằng "anhma3.jpg" của bạn:
+        // 👇 ẢNH KINH DỊ KHI BẤM NÚT 3 - Thay bằng "anhma3.jpg" của bạn:
         const HORROR_IMAGE_3 = "data:image/svg+xml;utf8," + encodeURIComponent(`
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 800">
                 <rect width="800" height="800" fill="#000000"/>
-                <!-- Bóng ma xuất hiện sát màn hình -->
                 <ellipse cx="400" cy="400" rx="260" ry="340" fill="#d4d4d8"/>
                 <ellipse cx="400" cy="400" rx="245" ry="325" fill="#18181b"/>
-                <!-- Hốc mắt rỗng chảy máu đen -->
                 <path d="M230 270 Q300 220 360 290 Q300 370 230 270 Z" fill="#000000"/>
                 <path d="M570 270 Q500 220 440 290 Q500 370 570 270 Z" fill="#000000"/>
                 <circle cx="298" cy="290" r="10" fill="#ef4444"/>
                 <circle cx="502" cy="290" r="10" fill="#ef4444"/>
-                <!-- Miệng kéo dài kinh dị -->
                 <rect x="315" y="430" width="170" height="250" rx="85" fill="#000000" stroke="#7f1d1d" stroke-width="14"/>
                 <line x1="350" y1="435" x2="350" y2="675" stroke="#52525b" stroke-width="8"/>
                 <line x1="400" y1="430" x2="400" y2="680" stroke="#52525b" stroke-width="8"/>
@@ -371,11 +350,12 @@
             </svg>
         `);
 
-        // 👇 FILE ÂM THANH LA HÉT TRÊN GITHUB (Tải file mp3 lên cùng thư mục và điền tên):
-        const HORROR_AUDIO_SRC = "doama.mp3";
+        // 👇 TÊN 2 FILE ÂM THANH TRÊN GITHUB:
+        const BG_BINH_AUDIO_SRC = "Binhoi.mp3"; // Phát ngay khi vào web đến mãi mãi
+        const HORROR_AUDIO_SRC = "doama.mp3";   // Phát khi bấm vào 1 trong 3 nút
 
         // =========================================================================
-        // LOGIC KÍCH HOẠT JUMPSCARE & MỞ KHÓA ÂM THANH 100%
+        // LOGIC PHÁT NHẠC NỀN BINHOI.MP3 MÃI MÃI & KÍCH HOẠT DOAMA.MP3 KHI BẤM
         // =========================================================================
         const IMAGE_MAP = {
             "1": HORROR_IMAGE_1,
@@ -386,12 +366,31 @@
         const halloweenStage = document.getElementById('halloweenStage');
         const scareOverlay = document.getElementById('scareOverlay');
         const scareImage = document.getElementById('scareImage');
+        const bgBinhAudio = document.getElementById('bgBinhAudio');
         const scareAudio = document.getElementById('scareAudio');
 
-        // Nạp sẵn nguồn âm thanh
-        if (HORROR_AUDIO_SRC) {
-            scareAudio.src = HORROR_AUDIO_SRC;
+        bgBinhAudio.src = BG_BINH_AUDIO_SRC;
+        scareAudio.src = HORROR_AUDIO_SRC;
+
+        // Hàm đảm bảo Binhoi.mp3 luôn chạy và lặp lại mãi mãi
+        function ensureBinhAudioPlays() {
+            bgBinhAudio.loop = true;
+            bgBinhAudio.muted = false;
+            bgBinhAudio.volume = 1.0;
+            if (bgBinhAudio.paused) {
+                bgBinhAudio.play().catch(() => {});
+            }
         }
+
+        // Thử phát Binhoi.mp3 ngay lập tức khi vừa tải trang
+        window.addEventListener('DOMContentLoaded', ensureBinhAudioPlays);
+        ensureBinhAudioPlays();
+
+        // Dự phòng: Nếu trình duyệt điện thoại/Zalo chặn tự phát khi chưa chạm màn hình,
+        // ngay cú chạm/click/cuộn đầu tiên ở bất cứ đâu trên trang sẽ lập tức phát Binhoi.mp3 mãi mãi
+        ['pointerdown', 'touchstart', 'click', 'keydown'].forEach(evt => {
+            window.addEventListener(evt, ensureBinhAudioPlays, { passive: true });
+        });
 
         // Tạo các dòng chữ "Bình ơiiiii" trôi mờ ảo, chập chờn khắp màn hình
         function spawnGhostCalls() {
@@ -443,6 +442,9 @@
             if (isScared) return;
             isScared = true;
 
+            // Đảm bảo Binhoi.mp3 vẫn tiếp tục chạy song song mãi mãi
+            ensureBinhAudioPlays();
+
             // 1. Chọn đúng ảnh kinh dị tương ứng với nút người dùng vừa bấm
             scareImage.src = IMAGE_MAP[scareId] || HORROR_IMAGE_1;
 
@@ -454,12 +456,12 @@
             scareOverlay.classList.remove('hidden');
             scareOverlay.classList.add('flex', 'scare-strobe-bg');
 
-            // 4. Rung điện thoại liên hồi (nếu mở trên điện thoại hỗ trợ rung)
+            // 4. Rung điện thoại liên hồi
             if (navigator.vibrate) {
                 navigator.vibrate([500, 80, 500, 80, 700, 80, 900]);
             }
 
-            // 5. Phát âm thanh trực tiếp qua thẻ <audio> ngay trong cú click (100% không bị chặn)
+            // 5. Phát âm thanh dọa ma doama.mp3 (giữ nguyên như cũ)
             if (HORROR_AUDIO_SRC) {
                 scareAudio.muted = false;
                 scareAudio.volume = 1.0;
